@@ -10,4 +10,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Build
-      run: dotnet build dotnetinteractive-openapi.sln
+      run: dotnet build --configuration Release dotnetinteractive-openapi.sln
+    - name: Push Nuget
+      run: dotnet nuget push "src\Mfh.DotNet.Interactive.OpenApi\bin\Release\Mfh.DotNet.Interactive.OpenApi*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }}

@@ -67,10 +67,10 @@ namespace Mfh.DotNet.Interactive.OpenApi
             {
                 ClassName = clientClassName,
                 ExposeJsonSerializerSettings = true,
+                ExceptionClass = clientClassName + "Exception",
                 CSharpGeneratorSettings =
                 {
-                    Namespace = "DummyNamespace",
-                    GenerateDataAnnotations = false
+                    Namespace = "DummyNamespace"                    
                 }
             };
 

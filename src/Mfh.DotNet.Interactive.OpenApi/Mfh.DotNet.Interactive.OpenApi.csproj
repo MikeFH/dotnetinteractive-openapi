@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.0.3-beta</Version>
+    <Version>0.0.5-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>MikeFh</Authors>
     <PackageProjectUrl>https://github.com/MikeFH/dotnetinteractive-openapi/</PackageProjectUrl>
@@ -23,5 +23,6 @@
     <PackageReference Include="microsoft.dotnet.interactive" Version="1.0.0-beta.21255.3" />
     <PackageReference Include="microsoft.dotnet.interactive.csharp" Version="1.0.0-beta.21255.3" />
     <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="13.8.2" />
+    <PackageReference Include="NSwag.Core.Yaml" Version="13.8.2" />
   </ItemGroup>
 </Project>

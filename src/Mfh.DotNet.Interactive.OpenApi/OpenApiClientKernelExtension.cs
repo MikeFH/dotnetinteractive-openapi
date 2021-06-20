@@ -59,7 +59,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
 
             DisplayedValue dv = invocationContext.Display((object)i("Downloading schema..."), "text/html");
 
-            OpenApiDocument document = await OpenApiDocument.FromUrlAsync(schema);
+            OpenApiDocument document = await GetOpenApiDocument(schema);
 
             dv.Update((object)i("Building client..."));
 
@@ -70,7 +70,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
                 ExceptionClass = clientClassName + "Exception",
                 CSharpGeneratorSettings =
                 {
-                    Namespace = "DummyNamespace"                    
+                    Namespace = "DummyNamespace"
                 }
             };
 
@@ -121,6 +121,22 @@ namespace Mfh.DotNet.Interactive.OpenApi
                     )
                 )
             );
+        }
+
+        private async Task<OpenApiDocument> GetOpenApiDocument(string schemaPath)
+        {
+            bool hasYamlExtension = schemaPath.EndsWith(".yml") || schemaPath.EndsWith(".yaml");
+
+            if (schemaPath.StartsWith(Uri.UriSchemeHttp) || schemaPath.StartsWith(Uri.UriSchemeHttps))
+            {
+                return hasYamlExtension ?
+                    await OpenApiYamlDocument.FromUrlAsync(schemaPath) :
+                    await OpenApiDocument.FromUrlAsync(schemaPath);
+            }
+
+            return hasYamlExtension ?
+                await OpenApiYamlDocument.FromFileAsync(schemaPath) :
+                await OpenApiDocument.FromFileAsync(schemaPath);
         }
     }
 }

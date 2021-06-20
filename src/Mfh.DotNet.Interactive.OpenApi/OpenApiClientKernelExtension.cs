@@ -26,6 +26,14 @@ namespace Mfh.DotNet.Interactive.OpenApi
             command.Handler = CommandHandler.Create<string, KernelInvocationContext>(async (schema, invocationContext) => await GenerateClient(schema, invocationContext));
 
             kernel.AddDirective(command);
+                       
+            KernelInvocationContext.Current?.Display((object)
+                details(
+                    summary("Create strongly typed clients for OpenAPI compliant APIs"),
+                    p("Use the ", code("#!openapi-client"), " command to create a c# API client"),
+                    p(i("Powered by ", a[href: "https://github.com/RicoSuter/NSwag"]("NSwag")))
+                )
+            );
 
             return Task.CompletedTask;
         }
@@ -100,7 +108,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
                     p(
                         "You can intialize the client as shown below",
                         br(),
-                        code($"var client = new {clientClassName}()"),
+                        code($"var client = new {clientClassName}();"),
                         br(),
                         "or using an already existing ",
                         code("HttpClient"),

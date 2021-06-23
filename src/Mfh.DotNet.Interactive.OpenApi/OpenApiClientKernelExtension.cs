@@ -35,10 +35,16 @@ namespace Mfh.DotNet.Interactive.OpenApi
                 typeof(MethodNameType), 
                 () => MethodNameType.Path
             ));
+            command.AddOption(new Option(
+                new[] { "-t", "--enable-tracing" },
+                "Enabled tracing of HTTP requests/responses",
+                typeof(bool),
+                () => false
+            ));
 
-            command.Handler = CommandHandler.Create<string, string, MethodNameType, KernelInvocationContext>(
-                async (schema, className, methodNameType, invocationContext) => 
-                    await GenerateClient(schema, className, methodNameType,  invocationContext)
+            command.Handler = CommandHandler.Create<string, string, bool, MethodNameType, KernelInvocationContext>(
+                async (schema, className, enableTracing, methodNameType, invocationContext) => 
+                    await GenerateClient(schema, className, enableTracing, methodNameType,  invocationContext)
             );
 
             kernel.AddDirective(command);
@@ -54,7 +60,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
             return Task.CompletedTask;
         }
 
-        private async Task GenerateClient(string schema, string clientClassName, MethodNameType operationNameType, KernelInvocationContext invocationContext)
+        private async Task GenerateClient(string schema, string clientClassName, bool enableTracing, MethodNameType operationNameType, KernelInvocationContext invocationContext)
         {
             CSharpKernel csharpKernel = null;
 
@@ -100,19 +106,26 @@ namespace Mfh.DotNet.Interactive.OpenApi
                 .Trim()
                 .Trim(new[] { '{', '}' });
 
-            //Extend the client functionnality
-            clientCode += Environment.NewLine;
-            clientCode += $@"public partial class {clientClassName} {{
-                private static readonly System.Net.Http.HttpClient DefaultHttpClient = new System.Net.Http.HttpClient();
+            //Add default constructor for ease of use
+            clientCode += GenerateClientClassAddition(
+                clientClassName, 
+                $@"private static readonly System.Net.Http.HttpClient DefaultHttpClient = new System.Net.Http.HttpClient();
 
                 public {clientClassName}() 
-                    :this(DefaultHttpClient) {{ }}
+                    :this(DefaultHttpClient) {{ }}"
+            );
 
-                partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response) {{
-                    display(response);
-                }}
-            }}";
-
+            if (enableTracing)
+            {
+                //trace the requests/responses using the NSwag generated partial method
+                clientCode += GenerateClientClassAddition(
+                        clientClassName,
+                        @"partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response) {
+                            display(response);
+                        }"
+                ); 
+            }
+           
             await csharpKernel.SubmitCodeAsync(@"#r ""System.ComponentModel.DataAnnotations""");
             await csharpKernel.SubmitCodeAsync(clientCode);
 
@@ -137,6 +150,14 @@ namespace Mfh.DotNet.Interactive.OpenApi
                     )
                 )
             );
+        }
+
+        private string GenerateClientClassAddition(string clientClassName, string codeAddition)
+        {
+            return Environment.NewLine +
+                $@"public partial class {clientClassName} {{" + Environment.NewLine +
+                codeAddition + Environment.NewLine +
+            "}";
         }
 
         private async Task<OpenApiDocument> GetOpenApiDocument(string schemaPath)

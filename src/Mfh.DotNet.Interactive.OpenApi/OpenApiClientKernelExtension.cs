@@ -24,14 +24,21 @@ namespace Mfh.DotNet.Interactive.OpenApi
             Command command = new Command("#!openapi-client", "Generate an api client based on its OpenAPI schema");
             command.AddArgument(new Argument("schema"));
             command.AddOption(new Option(
+                new[] { "-c", "--class-name" },
+                "Name of the generated client class name",
+                typeof(string),
+                () => "OpenApiClient"
+            ));
+            command.AddOption(new Option(
                 new[] { "--method-name-type" }, 
                 "Defines how method names are generated (based on path or operation name)",
-                typeof(MethodNameType), () => MethodNameType.Path
+                typeof(MethodNameType), 
+                () => MethodNameType.Path
             ));
 
-            command.Handler = CommandHandler.Create<string, MethodNameType, KernelInvocationContext>(
-                async (schema, operationNameType, invocationContext) => 
-                    await GenerateClient(schema, operationNameType,  invocationContext)
+            command.Handler = CommandHandler.Create<string, string, MethodNameType, KernelInvocationContext>(
+                async (schema, className, methodNameType, invocationContext) => 
+                    await GenerateClient(schema, className, methodNameType,  invocationContext)
             );
 
             kernel.AddDirective(command);
@@ -47,7 +54,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
             return Task.CompletedTask;
         }
 
-        private async Task GenerateClient(string schema, MethodNameType operationNameType, KernelInvocationContext invocationContext)
+        private async Task GenerateClient(string schema, string clientClassName, MethodNameType operationNameType, KernelInvocationContext invocationContext)
         {
             CSharpKernel csharpKernel = null;
 
@@ -63,9 +70,6 @@ namespace Mfh.DotNet.Interactive.OpenApi
             {
                 return;
             }
-
-            string clientClassName = "OpenApiClient";
-
             DisplayedValue dv = invocationContext.Display((object)i("Downloading schema..."), "text/html");
 
             OpenApiDocument document = await GetOpenApiDocument(schema);

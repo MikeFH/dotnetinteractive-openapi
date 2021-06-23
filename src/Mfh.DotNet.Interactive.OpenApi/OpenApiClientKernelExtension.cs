@@ -99,7 +99,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
             CSharpClientGenerator generator = new CSharpClientGenerator(document, settings);
             string clientCode = generator.GenerateFile();
 
-            //Remove #pragma diirectives useless in this context and the namespace to make the code usable in a script context
+            //Remove #pragma directives useless in this context and the namespace to make the code usable in a script context
             clientCode = Regex.Replace(clientCode, "^(#pragma|//).*$", "", RegexOptions.Multiline);
             clientCode = clientCode
                 .Replace("namespace DummyNamespace", "")
@@ -117,7 +117,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
 
             if (enableTracing)
             {
-                //trace the requests/responses using the NSwag generated partial method
+                //trace the requests/responses using the NSwag generated partial method and the .NET interactive HttpResponseMessage formatter
                 clientCode += GenerateClientClassAddition(
                         clientClassName,
                         @"partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response) {

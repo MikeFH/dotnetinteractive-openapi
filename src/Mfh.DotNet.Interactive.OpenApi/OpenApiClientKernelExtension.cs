@@ -2,6 +2,7 @@
 using Microsoft.DotNet.Interactive.CSharp;
 using NSwag;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -22,8 +23,16 @@ namespace Mfh.DotNet.Interactive.OpenApi
         {
             Command command = new Command("#!openapi-client", "Generate an api client based on its OpenAPI schema");
             command.AddArgument(new Argument("schema"));
+            command.AddOption(new Option(
+                new[] { "--method-name-type" }, 
+                "Defines how method names are generated (based on path or operation name)",
+                typeof(MethodNameType), () => MethodNameType.Path
+            ));
 
-            command.Handler = CommandHandler.Create<string, KernelInvocationContext>(async (schema, invocationContext) => await GenerateClient(schema, invocationContext));
+            command.Handler = CommandHandler.Create<string, MethodNameType, KernelInvocationContext>(
+                async (schema, operationNameType, invocationContext) => 
+                    await GenerateClient(schema, operationNameType,  invocationContext)
+            );
 
             kernel.AddDirective(command);
                        
@@ -38,7 +47,7 @@ namespace Mfh.DotNet.Interactive.OpenApi
             return Task.CompletedTask;
         }
 
-        private async Task GenerateClient(string schema, KernelInvocationContext invocationContext)
+        private async Task GenerateClient(string schema, MethodNameType operationNameType, KernelInvocationContext invocationContext)
         {
             CSharpKernel csharpKernel = null;
 
@@ -68,6 +77,9 @@ namespace Mfh.DotNet.Interactive.OpenApi
                 ClassName = clientClassName,
                 ExposeJsonSerializerSettings = true,
                 ExceptionClass = clientClassName + "Exception",
+                OperationNameGenerator = operationNameType == MethodNameType.OperationId ? 
+                    new SingleClientFromOperationIdOperationNameGenerator() : 
+                    new SingleClientFromPathSegmentsOperationNameGenerator(),
                 CSharpGeneratorSettings =
                 {
                     Namespace = "DummyNamespace"

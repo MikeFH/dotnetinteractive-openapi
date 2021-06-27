@@ -1,5 +1,9 @@
 # OpenApi client generator for .NET Interactive
 
+[![Nuget](https://img.shields.io/nuget/v/MfhSoft.DotNet.Interactive.OpenApi)](https://www.nuget.org/packages/MfhSoft.DotNet.Interactive.OpenApi/)
+[![build](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml)
+
+
 Quickly generate a C# client for an OpenApi compliant API for use in your .NET Interactive notebooks.
 
 Powered by <a href="https://github.com/RicoSuter/NSwag">NSwag</a>

@@ -4,13 +4,30 @@ Quickly generate a C# client for an OpenApi compliant API for use in your .NET I
 
 Powered by <a href="https://github.com/RicoSuter/NSwag">NSwag</a>
 
-## Exemple 
+## Examples
 ```csharp
 #r "nuget:MhfSoft.DotNet.Interactive.OpenApi"
 #!openapi-client "https://petstore.swagger.io/v2/swagger.json"
 
 var client = new OpenApiClient();
 var response = await client.StoreInventoryAsync();
+```
+
+HTTP requests/responses can be traced to inspect them :
+```csharp
+#!openapi-client "https://petstore.swagger.io/v2/swagger.json" --enable-tracing
+```
+Provide your own ``System.Net.Http.HttpClient`` to the constructor if you need custom behavior
+```csharp
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+var httpClient = new HttpClient();
+httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("apikey", "xxxxx");
+
+var client = new OpenApiClient(httpClient);
+var r = await client.StoreInventoryAsync();
+r
 ```
 
 ## Documentation

@@ -1,4 +1,4 @@
-﻿namespace Mfh.DotNet.Interactive.OpenApi
+﻿namespace MfhSoft.DotNet.Interactive.OpenApi
 {
     public enum MethodNameType
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfh.DotNet.Interactive.OpenApi", "src\Mfh.DotNet.Interactive.OpenApi\Mfh.DotNet.Interactive.OpenApi.csproj", "{6DD007F1-62CD-4D6A-83C2-33E589A2CA03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MfhSoft.DotNet.Interactive.OpenApi", "src\MfhSoft.DotNet.Interactive.OpenApi\MfhSoft.DotNet.Interactive.OpenApi.csproj", "{6DD007F1-62CD-4D6A-83C2-33E589A2CA03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

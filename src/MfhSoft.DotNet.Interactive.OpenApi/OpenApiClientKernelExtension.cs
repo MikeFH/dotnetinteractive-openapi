@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Microsoft.DotNet.Interactive.Formatting.PocketViewTags;
 
-namespace Mfh.DotNet.Interactive.OpenApi
+namespace MfhSoft.DotNet.Interactive.OpenApi
 {
     public class OpenApiClientKernelExtension : IKernelExtension
     {

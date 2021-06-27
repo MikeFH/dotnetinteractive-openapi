@@ -2,12 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>0.0.17-beta</Version>
+    <Version>0.0.18-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>MikeFh</Authors>
     <PackageProjectUrl>https://github.com/MikeFH/dotnetinteractive-openapi/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MikeFH/dotnetinteractive-openapi/</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>Quickly generate a C# client for an OpenApi compliant API for use in your .NET Interactive notebooks.</Description>
+    <Copyright>Copyright (c) 2021 Michael H</Copyright>
+    <PackageTags>openapi interactive</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

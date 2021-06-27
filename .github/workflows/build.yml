@@ -12,5 +12,5 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release dotnetinteractive-openapi.sln
     - name: Push Nuget
-      run: dotnet nuget push "src/MfhSoft.DotNet.Interactive.OpenApi/bin/Release/Mfh.DotNet.Interactive.OpenApi.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "src/MfhSoft.DotNet.Interactive.OpenApi/bin/Release/MfhSoft.DotNet.Interactive.OpenApi.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       

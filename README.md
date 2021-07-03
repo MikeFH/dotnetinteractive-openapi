@@ -49,5 +49,6 @@ Options:
   -c, --class-name <class-name>          Name of the generated client class name [default: OpenApiClient]
   --method-name-type <OperationId|Path>  Defines how method names are generated (based on path or operation name) [default: Path]
   -t, --enable-tracing                   Enabled tracing of HTTP requests/responses [default: False]
+  -v, --verbose                          Show more detailed output like the generated client code [default: False]
   -?, -h, --help                         Show help and usage information
 ```

@@ -4,7 +4,7 @@
 [![build](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml)
 
 
-Quickly generate a C# client for an OpenApi compliant API for use in your .NET Interactive notebooks.
+Quickly generate a C# client for an OpenApi compliant API for use in your [.NET Interactive](https://github.com/dotnet/interactive/) notebooks.
 
 Powered by <a href="https://github.com/RicoSuter/NSwag">NSwag</a>
 

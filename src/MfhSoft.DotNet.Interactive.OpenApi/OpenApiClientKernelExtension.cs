@@ -98,7 +98,8 @@ namespace MfhSoft.DotNet.Interactive.OpenApi
                     new SingleClientFromPathSegmentsOperationNameGenerator(),
                 CSharpGeneratorSettings =
                 {
-                    Namespace = "DummyNamespace"
+                    Namespace = "DummyNamespace",
+                    GenerateJsonMethods = true
                 }
             };
 

@@ -4,7 +4,7 @@
 [![build](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/MikeFH/dotnetinteractive-openapi/actions/workflows/build.yml)
 
 
-Quickly generate a C# client for an OpenApi compliant API for use in your .NET Interactive notebooks.
+Quickly generate a C# client for an OpenApi compliant API for use in your [.NET Interactive](https://github.com/dotnet/interactive/) notebooks.
 
 Powered by <a href="https://github.com/RicoSuter/NSwag">NSwag</a>
 
@@ -49,5 +49,6 @@ Options:
   -c, --class-name <class-name>          Name of the generated client class name [default: OpenApiClient]
   --method-name-type <OperationId|Path>  Defines how method names are generated (based on path or operation name) [default: Path]
   -t, --enable-tracing                   Enabled tracing of HTTP requests/responses [default: False]
+  -v, --verbose                          Show more detailed output like the generated client code [default: False]
   -?, -h, --help                         Show help and usage information
 ```

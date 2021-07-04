@@ -41,10 +41,16 @@ namespace MfhSoft.DotNet.Interactive.OpenApi
                 typeof(bool),
                 () => false
             ));
+            command.AddOption(new Option(
+                new[] { "-v", "--verbose" },
+                "Show more detailed output like the generated client code",
+                typeof(bool),
+                () => false
+            ));
 
-            command.Handler = CommandHandler.Create<string, string, bool, MethodNameType, KernelInvocationContext>(
-                async (schema, className, enableTracing, methodNameType, invocationContext) => 
-                    await GenerateClient(schema, className, enableTracing, methodNameType,  invocationContext)
+            command.Handler = CommandHandler.Create<string, string, bool, MethodNameType, bool, KernelInvocationContext>(
+                async (schema, className, enableTracing, methodNameType, verbose, invocationContext) => 
+                    await GenerateClient(schema, className, enableTracing, methodNameType, verbose,  invocationContext)
             );
 
             kernel.AddDirective(command);
@@ -60,7 +66,7 @@ namespace MfhSoft.DotNet.Interactive.OpenApi
             return Task.CompletedTask;
         }
 
-        private async Task GenerateClient(string schema, string clientClassName, bool enableTracing, MethodNameType operationNameType, KernelInvocationContext invocationContext)
+        private async Task GenerateClient(string schema, string clientClassName, bool enableTracing, MethodNameType operationNameType, bool verbose, KernelInvocationContext invocationContext)
         {
             CSharpKernel csharpKernel = null;
 
@@ -92,7 +98,8 @@ namespace MfhSoft.DotNet.Interactive.OpenApi
                     new SingleClientFromPathSegmentsOperationNameGenerator(),
                 CSharpGeneratorSettings =
                 {
-                    Namespace = "DummyNamespace"
+                    Namespace = "DummyNamespace",
+                    GenerateJsonMethods = true
                 }
             };
 
@@ -128,6 +135,17 @@ namespace MfhSoft.DotNet.Interactive.OpenApi
            
             await csharpKernel.SubmitCodeAsync(@"#r ""System.ComponentModel.DataAnnotations""");
             await csharpKernel.SubmitCodeAsync(clientCode);
+
+            if (verbose)
+            {
+                invocationContext.Display(
+                    (object)details(
+                        summary("Client code"),
+                        pre(code(clientCode))
+                    ),
+                    "text/html"
+                );
+            }
 
             dv.Update((object)
                 details(

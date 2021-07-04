@@ -4,6 +4,7 @@ using FluentAssertions;
 using Xunit;
 using Microsoft.DotNet.Interactive.Events;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MfhSoft.DotNet.Interactive.OpenApi.Tests
 {
@@ -12,8 +13,8 @@ namespace MfhSoft.DotNet.Interactive.OpenApi.Tests
         private const string RemoteYamlSchemaUrl = @"https://petstore.swagger.io/v2/swagger.yaml";
         private const string RemoteJsonSchemaUrl = @"https://petstore.swagger.io/v2/swagger.json";
 
-        private const string LocalYamlSchemaPath = @".\schemas\petstore.yaml";
-        private const string LocalJsonSchemaPath = @".\schemas\petstore.json";
+        private static readonly string LocalYamlSchemaPath = Path.Combine("schemas", "petstore.yaml");
+        private static readonly string LocalJsonSchemaPath = Path.Combine("schemas", "petstore.json");
 
         private async Task<CSharpKernel> CreateKernel()
         {

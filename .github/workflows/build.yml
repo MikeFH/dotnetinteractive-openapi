@@ -1,21 +1,24 @@
 name: build
-on: [push]
+on: 
+  push:
+    paths-ignore:
+    - README.md
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
+        uses: actions/setup-dotnet@v1
+        with:
         dotnet-version: 5.0.x
     - name: Install dependencies
-      run: dotnet restore
+        run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore
+        run: dotnet test --no-restore
     - name: Push Nuget
-      if: ${{ github.ref == 'refs/heads/main' }}
-      run: dotnet nuget push "src/MfhSoft.DotNet.Interactive.OpenApi/bin/Release/MfhSoft.DotNet.Interactive.OpenApi.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: dotnet nuget push "src/MfhSoft.DotNet.Interactive.OpenApi/bin/Release/MfhSoft.DotNet.Interactive.OpenApi.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       

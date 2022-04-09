@@ -5,7 +5,7 @@ using NSwag.CodeGeneration.CSharp;
 using NSwag.CodeGeneration.OperationNameGenerators;
 using System;
 using System.CommandLine;
-using System.CommandLine.Invocation;
+using System.CommandLine.NamingConventionBinder;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Microsoft.DotNet.Interactive.Formatting.PocketViewTags;

@@ -10,7 +10,7 @@ Powered by <a href="https://github.com/RicoSuter/NSwag">NSwag</a>
 
 ## Examples
 ```csharp
-#r "nuget:MfhSoft.DotNet.Interactive.OpenApi"
+#r "nuget:MfhSoft.DotNet.Interactive.OpenApi,1.1.0-beta"
 #!openapi-client "https://petstore.swagger.io/v2/swagger.json"
 
 var client = new OpenApiClient();
